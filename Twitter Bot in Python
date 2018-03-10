@@ -12,7 +12,7 @@
 
 #Modul twython importieren und zu postende Nachricht in der Variable tweet speichern.
 from twython import Twython
-tweet = "Hallo Welt! Ich bin ein Bot"
+tweet = "Hallo Welt!"
 
 #Die Anmeldedaten werden in eine pkl-Datei geschrieben, so dass sie um Programm selbst nicht sichtbar sind. 
 #Die pkl-Datei muss vor unerlaubtem Zugriff geschützt werden, da

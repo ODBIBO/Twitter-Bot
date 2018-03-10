@@ -1,0 +1,49 @@
+#Twitter Bot -> Python Programm für selbständig gernerierte Nachrichten auf Twitter 
+
+#Twitter ist ein Kurznachrichtendienst. Jeder "Tweet" umfasst maximal 280 Zeichen, einschl. Bilder und Links.
+#Ein Bot ist ein Programm, das selbständig Nachrichten auf Twitter postet.
+
+#Voraussetzung ist ein Twitteraccount, das eingerichtet werden kann unter https://twitter.com/signup
+#Eine Handynummer ist für die Verifizierung des Twitter Accounts zu hinterlegen.
+#Für den Bot muss eine Twitter App eingerichtet werden, unter https://apps.twitter.com/
+#Um über das Python Programm Zugriff auf Twitter zu bekommen, sind der Twitter App die vier Login-Informationen
+#zu entnehmen: API Key, API Secret, Access Token und Access Token Secret.  
+#Die Bibliothek twython muss vorab installiert werden (!pip install twython)
+
+#Modul twython importieren und zu postende Nachricht in der Variable tweet speichern.
+from twython import Twython
+tweet = "Hallo Welt! Ich bin ein Bot"
+
+#Die Anmeldedaten werden in eine pkl-Datei geschrieben, so dass sie um Programm selbst nicht sichtbar sind. 
+#Die pkl-Datei muss vor unerlaubtem Zugriff geschützt werden, da
+#sie die Anmeldedaten für den vollen Zugriff auf das persönliche Twitter-Konto ermöglicht.
+
+#Mit dem Modul pickle lassen sich Objekte in einer pkl-Datei serialisiert speichern und anschließend wieder deserialisiert einbinden, 
+#bspw. als Listen, Dictionairies, Integers, Strings, etc.
+
+#Beim erstmaligen Erstellen der pkl-Datei sich die persönlichen/vertraulichen Twitter-Logindaten nachfolgend in den Variablen zu hinterlegen. 
+#Nach der ersten Programmausführung können die vier Variablen aus dem Programm gelöscht werden,
+#da sie nun in der Pickle-Datei "secret_credentials.pkl" gespeichert sind.
+#Bei den folgenden Programmausführungen werden die Login-Daten aus der pkl-Datei geladen.
+apiKey = 'xxx'  
+apiSecret = 'xxx'
+accessToken = 'xxx'
+accessTokenSecret = 'xxx'
+
+import pickle
+import os
+
+if not os.path.exists('secret_credentials.pkl'):
+    Twitter=[]
+    Twitter.append(apiKey)
+    Twitter.append(apiSecret)
+    Twitter.append(accessToken)
+    Twitter.append(accessTokenSecret)
+    with open('secret_credentials.pkl','wb') as f:
+        pickle.dump(Twitter, f)
+else:
+    Twitter=pickle.load(open('secret_credentials.pkl','rb'))
+
+#Die im Programm in der Variable tweet generierte Nachricht wird an Twitter gesendet und damit gepostet.
+api = Twython(Twitter[0], Twitter[1], Twitter[2], Twitter[3])
+api.update_status(status=tweet)
